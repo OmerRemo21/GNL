@@ -6,7 +6,7 @@
 /*   By: osobol <osobol@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/18 18:08:00 by osobol        #+#    #+#                 */
-/*   Updated: 2024/03/13 11:06:03 by omersobol     ########   odam.nl         */
+/*   Updated: 2024/03/15 10:25:17 by omersobol     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,12 @@ char	*update_storage(char *save)
 	char	*temp;
 
 	temp = ft_strdup(save);
+	if (temp == NULL)
+		return (free(save), NULL);
 	free(save);
 	save = ft_substr(temp, untilnl(temp), ft_strlen(temp));
+	if (save == NULL)
+		return (free(temp), NULL);
 	free(temp);
 	return (save);
 }
@@ -70,14 +74,15 @@ char	*read_line(int fd, char *buffer, char *save)
 		}
 		buffer[bytes_read] = '\0';
 		save = ft_strjoin(save, buffer);
+		if (save == NULL)
+			return (free(buffer), NULL);
 	}
+	free(buffer);
 	if (bytes_read == 0 && save[0] == '\0')
 	{
 		free(save);
-		free(buffer);
 		return (NULL);
 	}
-	free(buffer);
 	return (save);
 }
 
@@ -85,7 +90,7 @@ char	*get_next_line(int fd)
 {
 	char		*buffer;
 	char		*line;
-	static char	*save;
+	static char	*save = NULL;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
@@ -94,26 +99,32 @@ char	*get_next_line(int fd)
 		return (NULL);
 	if (save == NULL)
 		save = ft_strdup("");
+	if (save == NULL)
+		return (free(buffer), NULL);
 	save = read_line(fd, buffer, save);
 	if (save == NULL)
 		return (NULL);
 	line = ft_substr(save, 0, untilnl(save));
+	if (line == NULL)
+		return (free(save), NULL);
 	save = update_storage(save);
+	if (save == NULL)
+		return (free(line), NULL);
 	return (line);
 }
 
-//int main()
-//{
-//	int	fd;
-//	int i;
-//	i = 0;
+// int main()
+// {
+// 	int	fd;
+// 	int i;
+// 	i = 0;
 
-//	fd = open("testingfile.txt", O_RDONLY);
-//	fd = 1;
-//	while (i < 14)
-//	{
-//		printf("%s", get_next_line(fd));
-//		i++;
-//	}
-//	return (0);
-//}
+// 	fd = open("testingfile.txt", O_RDONLY);
+// 	// fd = 1;
+// 	while (i < 10)
+// 	{
+// 		printf("%s", get_next_line(fd));
+// 		i++;
+// 	}
+// 	return (0);
+// }

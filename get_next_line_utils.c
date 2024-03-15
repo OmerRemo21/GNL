@@ -6,7 +6,7 @@
 /*   By: osobol <osobol@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/18 18:08:38 by osobol        #+#    #+#                 */
-/*   Updated: 2024/03/13 00:19:37 by omersobol     ########   odam.nl         */
+/*   Updated: 2024/03/14 15:30:37 by osobol        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ char	*ft_strjoin(char *s1, char *s2)
 	int		i;
 	int		j;
 
-	joined_string = (char *)malloc((ft_strlen(s1) + \
-	ft_strlen(s2) + 1) * sizeof(char));
 	i = 0;
 	j = 0;
+	joined_string = (char *)malloc((ft_strlen(s1) + \
+	ft_strlen(s2) + 1) * sizeof(char));
 	if (joined_string == NULL)
-		return (NULL);
+		return (free(s1), NULL);
 	while (s1[i])
 	{
 		joined_string[i] = s1[i];
@@ -73,8 +73,6 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	char	*sub_string;
 	size_t	substr_len;
 
-	if (s == NULL)
-		return (NULL);
 	if (start >= ft_strlen(s))
 	{
 		start = ft_strlen(s);
