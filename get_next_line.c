@@ -6,7 +6,7 @@
 /*   By: osobol <osobol@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/18 18:08:00 by osobol        #+#    #+#                 */
-/*   Updated: 2024/03/15 10:25:17 by omersobol     ########   odam.nl         */
+/*   Updated: 2024/03/16 10:50:59 by omersobol     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ char	*update_storage(char *save)
 		return (free(save), NULL);
 	free(save);
 	save = ft_substr(temp, untilnl(temp), ft_strlen(temp));
-	if (save == NULL)
-		return (free(temp), NULL);
 	free(temp);
 	return (save);
 }
@@ -67,46 +65,35 @@ char	*read_line(int fd, char *buffer, char *save)
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read == CANT_READ)
-		{
-			free(buffer);
-			free(save);
-			return (NULL);
-		}
+			return (free(save), NULL);
 		buffer[bytes_read] = '\0';
 		save = ft_strjoin(save, buffer);
 		if (save == NULL)
-			return (free(buffer), NULL);
+			return (NULL);
 	}
-	free(buffer);
 	if (bytes_read == 0 && save[0] == '\0')
-	{
-		free(save);
-		return (NULL);
-	}
+		return (free(save), NULL);
 	return (save);
 }
 
 char	*get_next_line(int fd)
 {
-	char		*buffer;
+	char		buffer[BUFFER_SIZE + 1];
 	char		*line;
 	static char	*save = NULL;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (buffer == NULL)
-		return (NULL);
 	if (save == NULL)
 		save = ft_strdup("");
 	if (save == NULL)
-		return (free(buffer), NULL);
+		return (NULL);
 	save = read_line(fd, buffer, save);
 	if (save == NULL)
-		return (NULL);
+		return (save = NULL, NULL);
 	line = ft_substr(save, 0, untilnl(save));
 	if (line == NULL)
-		return (free(save), NULL);
+		return (free(save), save = NULL, NULL);
 	save = update_storage(save);
 	if (save == NULL)
 		return (free(line), NULL);
