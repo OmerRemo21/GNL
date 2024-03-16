@@ -105,12 +105,16 @@ char	*get_next_line(int fd)
 // 	int	fd;
 // 	int i;
 // 	i = 0;
+// 	char	*s;
 
-// 	fd = open("testingfile.txt", O_RDONLY);
+// 	fd = open("testing.txt", O_RDONLY);
 // 	// fd = 1;
-// 	while (i < 10)
+// 	s = "";
+// 	while (s)
 // 	{
-// 		printf("%s", get_next_line(fd));
+// 		s = get_next_line(fd);
+// 		printf("%s", s);
+// 		free(s);
 // 		i++;
 // 	}
 // 	return (0);
