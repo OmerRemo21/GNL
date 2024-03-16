@@ -78,7 +78,7 @@ char	*read_line(int fd, char *buffer, char *save)
 
 char	*get_next_line(int fd)
 {
-	char		buffer[BUFFER_SIZE + 1];
+	static char	buffer[BUFFER_SIZE + 1];
 	char		*line;
 	static char	*save = NULL;
 
