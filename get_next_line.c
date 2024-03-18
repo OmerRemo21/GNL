@@ -90,7 +90,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	save = read_line(fd, buffer, save);
 	if (save == NULL)
-		return (save = NULL, NULL);
+		return (NULL);
 	line = ft_substr(save, 0, untilnl(save));
 	if (line == NULL)
 		return (free(save), save = NULL, NULL);
